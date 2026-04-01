@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from http.client import HTTPException
 import time
 from typing import List, Optional
-
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Query
 import uvicorn
 
@@ -41,6 +41,15 @@ class SensordataInput:
     """
     timestamp: int
     value: float
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/version")

@@ -6,7 +6,7 @@ import avgIcon from "./icons/avg_time.svg";
 import scoreIcon from "./icons/score.svg";
 
 // Test-API-Endpunkt muss später durch echten Endpunkt ersetzt werden
-const API_URL = "/sensordata/hour_mock";
+const API_URL = "http://localhost:8000/sensordata/hour_mock";
 
 function getStatus(value) {
   if (value <= 60) return { label: "Normalbereich", level: "green" };

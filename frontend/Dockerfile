@@ -1,5 +1,5 @@
-FROM node:24.14.0-alpine AS dev
- 
+FROM node:24.14.0-alpine
+
 WORKDIR /loudy-tracker-app
  
 COPY /loudy-tracker-app/package*.json ./
