@@ -39,7 +39,7 @@ def read_audio_data(duration, sample_rate, channels):
 		GPIO.output(GPIO_RED, True)
 		GPIO.output(GPIO_YELLOW, False)
 		GPIO.output(GPIO_GREEN, False)
-	else if db < 85 AND db >= 65:
+	elif db < 85 and db >= 65:
 		GPIO.output(GPIO_RED, False)
 		GPIO.output(GPIO_YELLOW, True)
 		GPIO.output(GPIO_GREEN, False)
