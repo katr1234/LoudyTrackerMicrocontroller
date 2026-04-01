@@ -10,7 +10,7 @@ DB_OFFSET = 80 # Synced offset value
 
 GPIO_RED = 17
 GPIO_YELLOW = 27
-GPIO_GREEN 22
+GPIO_GREEN = 22
 
 def read_audio_data(duration, sample_rate, channels):
 	## Step 1: Read Data
@@ -44,7 +44,7 @@ def read_audio_data(duration, sample_rate, channels):
 		GPIO.output(GPIO_RED, False)
 		GPIO.output(GPIO_YELLOW, True)
 		GPIO.output(GPIO_GREEN, False)
-	else db < 65:
+	else:
 		GPIO.output(GPIO_RED, False)
 		GPIO.output(GPIO_YELLOW, False)
 		GPIO.output(GPIO_GREEN, True)
