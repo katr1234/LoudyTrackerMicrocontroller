@@ -1,8 +1,10 @@
 # This part of the code records the microfon data and calculate the dB
 import sounddevice as sd
 import numpy as np
+import time
 
 print("Start measuring... ")
+
 DB_OFFSET = 80 # Synced offset value
 
 def read_audio_data(duration, sample_rate, channels):
@@ -24,7 +26,11 @@ def read_audio_data(duration, sample_rate, channels):
 	## Step 4: Calculate dB
 	db = dbfs + DB_OFFSET
 	
+	print("RMS", rms)
 	print("DB: ", db)
+	
+	# Sleep process
+	time.sleep(0.1)
 
 
 
@@ -32,9 +38,10 @@ duration = 1  # Every second the microfon is measuring data
 sample_rate = 44100  # in Hz
 channels = 1  # 1 --> Mono (1 Signal, everything will be recorded in one channel), 2 --> Stereo
 
-x = 0
-while(x < 2):
-	read_audio_data(duration, sample_rate, channels)	
-	x = x + 1
-
+try:
+	while(True):
+		counter = 0
+		read_audio_data(duration, sample_rate, channels)	
+except KeyboardInterrupt:
+	print("Stopped")
 
