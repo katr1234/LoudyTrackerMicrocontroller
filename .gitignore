@@ -1,0 +1,5 @@
+server/.venv
+server/venv/*
+server/app/_pycache_/*
+server/app/_pycache_
+server/app/__pycache__
