@@ -26,7 +26,6 @@ def read_audio_data(duration, sample_rate, channels):
 		dbfs = 20 * np.log10(rms)
 	else:
 		dbfs = -100
-		return
 
 	## Step 4: Calculate dB
 	db = dbfs + DB_OFFSET
@@ -72,7 +71,6 @@ try:
 	GPIO.output(GPIO_GREEN, True)
 	
 	while(True):
-		counter = 0
 		read_audio_data(duration, sample_rate, channels)	
 except KeyboardInterrupt:
 	print("Stopped")
