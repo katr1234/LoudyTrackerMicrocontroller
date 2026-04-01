@@ -3,7 +3,7 @@ import sounddevice as sd
 import numpy as np
 
 print("Start measuring... ")
-DB_OFFSET = 70 # Sample value 
+DB_OFFSET = 80 # Synced offset value
 
 def read_audio_data(duration, sample_rate, channels):
 	## Step 1: Read Data
