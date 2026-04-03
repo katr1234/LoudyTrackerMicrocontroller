@@ -13,3 +13,11 @@
 - Stop and delete: `docker compose down`
 - Start: `docker compose start`
 - Restart: `docker compose restart`
+
+
+## Installation of Docker
+- Install docker: `curl -fsSL https://get.docker.com | sh`
+### Fix permissions
+- Create docker group: `sudo groupadd docker`
+- Add your user to the docker group: `sudo usermod -aG docker $USER`
+- Login to new group: `newgrp docker`
