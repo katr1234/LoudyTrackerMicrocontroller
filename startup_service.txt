@@ -6,7 +6,7 @@
 Description=Loudy Tracker
 
 [Service]
-ExecStart=/home/admin/Desktop/LoudyTracker/venv/bin/python /home/admin/Desktop/LoudyTracker/microphone_trafficlight_controller.py
+ExecStart=/home/admin/Desktop/LoudyTracker/.venv/bin/python /home/admin/Desktop/LoudyTracker/microphone_trafficlight_controller.py
 Restart=always
 User=admin
 
