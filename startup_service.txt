@@ -1,0 +1,24 @@
+## sudo nano /etc/systemd/system/loudy_tracker.service
+
+###########################################################
+
+[Unit]
+Description=Loudy Tracker
+
+[Service]
+ExecStart=/home/admin/Desktop/LoudyTracker/venv/bin/python /home/admin/Desktop/LoudyTracker/microphone_trafficlight_controller.py
+Restart=always
+User=admin
+
+[Install]
+WantedBy=multi-user.target
+
+############################################################
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable loudy_tracker.service
+sudo systemctl start loudy_tracker.service
+
+## Check state
+sudo systemctl status loudy_tracker.service
+
