@@ -4,7 +4,7 @@
 - Create venv: `python -m venv .venv`
 - Activate venv: `source .venv/bin/activate`
 - Install pip: `python -m pip install --upgrade pip`
-- Package install: `python -m pip install sounddevice numpy RPi.GPIO requests datetime`
+- Package install: `python -m pip install sounddevice numpy RPi.GPIO requests datetime asyncio`
 - Run file: `python <filename>.py`
 
 ## Docker Compose
