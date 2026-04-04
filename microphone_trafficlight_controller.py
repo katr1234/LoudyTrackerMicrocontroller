@@ -4,7 +4,7 @@ import time
 import RPi.GPIO as GPIO
 import requests
 from datetime import datetime, timezone
-import asyncio
+# import asyncio
 
 print("Start measuring... ")
 
@@ -99,7 +99,8 @@ try:
 			time.sleep(0.2)
 			count = count + 1			
 		
-		asyncio.run(send_data(sensordata_payload))	
+		# asyncio.run(send_data(sensordata_payload))	
+		send_data(sensordata_payload)
 			
 except KeyboardInterrupt:
 	print("Stopped")
