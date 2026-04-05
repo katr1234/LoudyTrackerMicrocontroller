@@ -13,6 +13,7 @@
 - Stop and delete: `docker compose down`
 - Start: `docker compose start`
 - Restart: `docker compose restart`
+- Delete Cache: `docker-compose build --no-cache`
 
 
 ## Installation of Docker
