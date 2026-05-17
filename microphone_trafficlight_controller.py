@@ -3,7 +3,12 @@ import numpy as np
 import time
 import RPi.GPIO as GPIO
 import requests
+import socket
+from luma.core.interface.serial import i2c
+from luma.oled.device import sh1106
+from PIL import Image, ImageDraw
 from datetime import datetime, timezone
+
 # import asyncio
 
 print("Start measuring... ")
@@ -18,6 +23,45 @@ GPIO_GREEN = 22
 
 # Send Data
 API_URL = 'http://127.0.0.1:8000/sensordata'
+
+# Monitor
+## I2C Connection
+serial = i2c(port=1, address=0x3C)
+## Initialize device
+device = sh1106(serial)
+display_locked_until = 30
+
+# Get IP Address
+def get_ip_address():
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	try:
+		s.connect(("8.8.8.8", 80)) # which network is used
+		ip_address = s.getsockname()[0]
+	except Exception:
+		ip_address = "127.0.0.1"
+	finally:
+		s.close();
+	return ip_address
+
+
+ip_address =get_ip_address()
+
+
+def show_on_disply(db_value, color_text):
+	global display_locked_until
+	
+	if time.time() < display_locked_until:
+		return
+	
+	image = Image.new("1", (device.width, device.height))
+	draw = ImageDraw.Draw(image)
+	
+	draw.text((0, 0), "Learmessung", fill=255)
+	draw.text((0, 16), f"db: {db_value:.1f}", fill=255)
+	draw.text((0, 32), f"Status: {color_text}", fill=255)
+	draw.text((0, 48), f"{ip_address}:3000", fill=255)
+	
+	device.display(image)
 
 def read_audio_data(duration, sample_rate, channels):
 	## Step 1: Read Data
@@ -45,22 +89,38 @@ def read_audio_data(duration, sample_rate, channels):
 		GPIO.output(GPIO_RED, True)
 		GPIO.output(GPIO_YELLOW, False)
 		GPIO.output(GPIO_GREEN, False)
+		status = "ROT"
 	# elif db < 85 and db >= 65:
 	elif db < 45 and db >= 35:
 		GPIO.output(GPIO_RED, False)
 		GPIO.output(GPIO_YELLOW, True)
 		GPIO.output(GPIO_GREEN, False)
+		status = "GELD"
 	else:
 		GPIO.output(GPIO_RED, False)
 		GPIO.output(GPIO_YELLOW, False)
 		GPIO.output(GPIO_GREEN, True)
+		status = "GRUEN"
+	
+	show_on_disply(db, status)
+	
 	return db
 	
-async def send_data(sensordata_payload):
+def send_data(sensordata_payload):
 	try:
 		response = requests.post(API_URL, json=sensordata_payload)
 		print(response.text)
-	except:
+	except Exception as ex:
+
+		image = Image.new("1", (device.width, device.height))
+		draw = ImageDraw.Draw(image)
+		
+		draw.text((0, 0), "FEHLER!", fill=255)
+		draw.text((0, 20), "Daten senden", fill=255)
+		draw.text((0, 40), "nicht möglich", fill=255)
+		
+		device.display(image)
+		display_locked_until = time.time() + 30
 		print(f'Sending data {sensordata_payload} not possible. Data will not be sent agian');
 	
 
@@ -87,7 +147,7 @@ try:
 
 	while(True):
 		count = 0
-		while(count < 5):
+		while(count < 10):
 			db_value = read_audio_data(duration, sample_rate, channels)	
 
 			sensordata_payload.append({
