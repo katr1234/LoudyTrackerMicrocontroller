@@ -6,6 +6,8 @@
 Description=Loudy Tracker
 Requires=loudy_tracker_docker.service
 After=loudy_tracker_docker.service
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/home/admin/Desktop/LoudyTracker/.venv/bin/python /home/admin/Desktop/LoudyTracker/microphone_trafficlight_controller.py
