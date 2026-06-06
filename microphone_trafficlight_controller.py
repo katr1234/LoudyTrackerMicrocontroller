@@ -6,7 +6,7 @@ import requests
 import socket
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime, timezone
 
 # import asyncio
@@ -38,13 +38,17 @@ def get_ip_address():
 		s.connect(("8.8.8.8", 80)) # which network is used
 		ip_address = s.getsockname()[0]
 	except Exception:
-		ip_address = "127.0.0.1"
+		ip_address = "Keine IP"
 	finally:
 		s.close();
-	return ip_address
+	return ip_address + ":3000"
 
 
 ip_address = get_ip_address()
+font = ImageFont.truetype(
+	"/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+	50
+)
 
 
 def show_on_disply(db_value, color_text):
@@ -55,13 +59,13 @@ def show_on_disply(db_value, color_text):
 	
 	image = Image.new("1", (device.width, device.height))
 	draw = ImageDraw.Draw(image)
-
-	draw.text((0, 32), f"{db_value:.1f}", fill=255)
-
+	
+	draw.text((0, 0), f"{db_value:.1f}", font=font, fill=255)
+	
 	if ip_address.startswith("127."):
 		get_ip_address()
-	
-	draw.text((0, 54), f"{ip_address}:3000", fill=255)
+		
+	draw.text((0, 54), f"{ip_address}", fill=255)
 	
 	device.display(image)
 
@@ -119,7 +123,7 @@ def send_data(sensordata_payload):
 		
 		draw.text((0, 0), "FEHLER!", fill=255)
 		draw.text((0, 20), "Daten senden", fill=255)
-		draw.text((0, 40), "nicht möglich", fill=255)
+		draw.text((0, 40), "nicht moeglich", fill=255)
 		
 		device.display(image)
 		display_locked_until = time.time() + 30
