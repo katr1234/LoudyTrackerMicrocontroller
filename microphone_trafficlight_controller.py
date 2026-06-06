@@ -55,15 +55,13 @@ def show_on_disply(db_value, color_text):
 	
 	image = Image.new("1", (device.width, device.height))
 	draw = ImageDraw.Draw(image)
-	
-	draw.text((0, 0), "Learmessung", fill=255)
-	draw.text((0, 16), f"db: {db_value:.1f}", fill=255)
-	draw.text((0, 32), f"Status: {color_text}", fill=255)
+
+	draw.text((0, 32), f"{db_value:.1f}", fill=255)
 
 	if ip_address.startswith("127."):
 		get_ip_address()
 	
-	draw.text((0, 48), f"{ip_address}:3000", fill=255)
+	draw.text((0, 54), f"{ip_address}:3000", fill=255)
 	
 	device.display(image)
 
