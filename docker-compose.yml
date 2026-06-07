@@ -6,6 +6,11 @@ services:
     image: server:latest
     ports:
       - "8000:8000"
+    environment:
+      - DB_PATH=/data/loudy.db
+      - THRESHOLD_DB=85.0
+    volumes:
+      - db-data:/data
     restart: always
 
   frontend:
@@ -18,4 +23,7 @@ services:
     restart: always
     environment:
       HOST: 0.0.0.0
-      PORT: 3000
+      PORT: 
+
+volumnes:
+  db-data:
