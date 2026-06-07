@@ -153,19 +153,18 @@ try:
 
 	while(True):
 		count = 0
-		while(count < 10):
+		while(count < 300):
 			db_value = read_audio_data(duration, sample_rate, channels)	
-
-			sensordata_payload.append({
-				"timestamp": int(datetime.now(timezone.utc).timestamp()),
-				"value": float(db_value)
-			})
 			
 			# Sleep process
 			time.sleep(0.2)
 			count = count + 1			
 		
-		# asyncio.run(send_data(sensordata_payload))	
+		# asyncio.run(send_data(sensordata_payload))
+		sensordata_payload([{
+				"timestamp": int(datetime.now(timezone.utc).timestamp()),
+				"value": float(db_value)
+			}])
 		send_data(sensordata_payload)
 			
 except KeyboardInterrupt:
